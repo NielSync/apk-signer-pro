@@ -9,6 +9,9 @@ android {
 
     defaultConfig {
         applicationId = "com.ameermuawiya.apksigner"
+        // Delta fork: suffix on every variant so delta builds never collide
+        // with the upstream app (side-by-side install).
+        applicationIdSuffix = ".delta"
         minSdk = 24
         targetSdk = 37
         versionCode = 3
@@ -22,6 +25,10 @@ android {
             isCrunchPngs = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = signingConfigs.getByName("debug")
+            ndk {
+                // Machine mandate: release APKs build arm64-v8a only.
+                abiFilters += "arm64-v8a"
+            }
         }
     }
     compileOptions {
